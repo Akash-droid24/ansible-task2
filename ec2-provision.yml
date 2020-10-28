@@ -1,0 +1,27 @@
+- hosts: localhost
+  vars_files:
+          - credentials.yml
+  tasks:
+    - name: Provisioning EC2 Instance on AWS
+      ec2:
+        key_name: "mykey12"
+        region: "ap-south-1"
+        instance_type: "t2.micro"
+        image: "ami-0ebc1ac48dfd14136"
+        instance_tags:
+          name: Ansible_OS
+        wait: yes
+        count: 1
+        vpc_subnet_id: "subnet-87c7fdef"
+        assign_public_ip: yes
+        region: "ap-south-1"
+        state: present
+        group_id: "sg-0ce56dfcc0c2dd388"
+        aws_access_key: "{{ accesskey }}"
+        aws_secret_key: "{{ secretkey }}"
+      register: ec2
+
+    - name: EC2 INSTANCE DETAILS
+      debug:
+        var: ec2
+
